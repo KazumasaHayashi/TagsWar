@@ -8,11 +8,11 @@ public class CameraController : MonoBehaviour {
 	public Joystick cameraJoystick;
 
 
-    float yaw,pitch;
+    public static float yaw,pitch;
 
     private void Start()
     {
-        rotateSpeed = 1;
+        rotateSpeed = 2;
     }
 
     void Update () {
@@ -26,5 +26,9 @@ public class CameraController : MonoBehaviour {
         pitch = Mathf.Clamp(pitch, -80, 60); //縦回転角度制限する
 
         transform.eulerAngles = new Vector3 (pitch, yaw, 0.0f); //回転の実行
+
+        if(cameraJoystick.Horizontal == 0 & cameraJoystick.Vertical == 0){
+            
+        }
     }
 }

@@ -2,8 +2,11 @@
 
 public class CharacterController : MonoBehaviour {
 
-    public float moveSpeed = 8f;
+    [SerializeField]
+    static public float moveSpeed = 1.5f;
     public Joystick joystick;
+
+
 
 	void Update () 
 	{
@@ -11,8 +14,12 @@ public class CharacterController : MonoBehaviour {
 
         if (moveVector != Vector3.zero)
         {
-            transform.rotation = Quaternion.LookRotation(moveVector);
-            transform.Translate(moveVector * moveSpeed * Time.deltaTime, Space.World);
+            // transform.rotation = Quaternion.LookRotation(moveVector);
+            transform.Translate(moveVector * moveSpeed * Time.deltaTime, Space.Self);
         }   
+		
+		if(CameraController.yaw != 0){
+			transform.eulerAngles = new Vector3(0.0f, CameraController.yaw, 0.0f);
+		}
 	}
 }
