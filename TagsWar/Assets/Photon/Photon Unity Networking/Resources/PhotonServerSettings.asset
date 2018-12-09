@@ -15,15 +15,15 @@ MonoBehaviour:
   VoiceAppID: 
   ChatAppID: 3c9fe275-fc52-4040-b30d-07bc4f9406e3
   HostType: 1
-  PreferredRegion: 0
+  PreferredRegion: 3
   EnabledRegions: -1
   Protocol: 0
   ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
-  JoinLobby: 1
-  EnableLobbyStatistics: 0
-  PunLogging: 0
+  JoinLobby: 0
+  EnableLobbyStatistics: 1
+  PunLogging: 2
   NetworkLogging: 1
   RunInBackground: 1
   RpcList:
