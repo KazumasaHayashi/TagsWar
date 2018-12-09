@@ -3,7 +3,7 @@
 public class CharacterController : MonoBehaviour {
 
     [SerializeField]
-    static public float moveSpeed = 1.5f;
+    static public float moveSpeed = 2.0f;
     public Joystick joystick;
 
 
