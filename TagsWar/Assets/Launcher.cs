@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 //using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace Com.MyCompany.MyGame
 {
@@ -31,6 +32,8 @@ namespace Com.MyCompany.MyGame
 	#region Private Variables
 
 	string _gameVersion = "1";
+
+	bool isConnecting;
 	
 	#endregion
 
@@ -42,12 +45,16 @@ namespace Com.MyCompany.MyGame
 	
 	public void Connect()
 	{
+		isConnecting = true;
+
 		progressLabel.SetActive(true);
 		controlPanel.SetActive(false);
 
 		if(PhotonNetwork.connected)
 		{
 			PhotonNetwork.JoinRandomRoom();
+			Debug.Log("JoinRandomRoom() was called");
+			Debug.Log("The number of players in room: " + PhotonNetwork.countOfPlayersInRooms);
 		}
 		else
 		{
@@ -56,7 +63,9 @@ namespace Com.MyCompany.MyGame
 
 		
 
-		Debug.Log(MaxPlayersPerRoom);
+		Debug.Log(PhotonNetwork.countOfPlayersInRooms);
+		Invoke("MoveScene", 5);
+		
 
 	}
 
@@ -92,10 +101,33 @@ namespace Com.MyCompany.MyGame
 
 	}
 
+	public void MoveScene()
+	{
+		Debug.Log("MoveScene() was called");
+		if(PhotonNetwork.countOfPlayersInRooms == MaxPlayersPerRoom)
+		
+		{
+			Debug.Log(MaxPlayersPerRoom + "画面遷移！" + PhotonNetwork.inRoom);
+			
+			PhotonNetwork.LoadLevel(1);
+
+		}
+		else
+		{
+			Debug.Log("Cannot use MoveScene()");
+		}
+	}
+
 	public override void OnConnectedToMaster() 
 	{
 		Debug.Log("DemoAnimator/Launcher: OnConnectedToMaster() was called by PUN");
+		Debug.Log(isConnecting);
+		// if(isConnecting)
+		// {
+		// 	PhotonNetwork.JoinRandomRoom();
+		// }
 		PhotonNetwork.JoinRandomRoom();
+		// Debug.Log("JoinRandomRoom cannot be called");
 	}
 
 	public override void OnDisconnectedFromPhoton()
@@ -109,11 +141,13 @@ namespace Com.MyCompany.MyGame
 	public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
 	{
 		Debug.Log("DemoAnimator/Launcher:OnPhotonRandomJoinFailed() was called by PUN. NO random room available so we create one.");
+		PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = MaxPlayersPerRoom }, null);
 	}
 
 	public override void OnJoinedRoom()
 	{
 		Debug.Log("DemoAnimator/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+		PhotonNetwork.LoadLevel("Main");
 	}
 
 
@@ -143,7 +177,9 @@ namespace Com.MyCompany.MyGame
 	
 	void Update () 
 	{
-		
+		Debug.Log("Maxプレイヤー数" + MaxPlayersPerRoom);
+		Debug.Log("プレイヤー数" + PhotonNetwork.countOfPlayersInRooms);
+		// Invoke("MoveScene",5);
 	}
 
 	#endregion
